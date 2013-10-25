@@ -27,7 +27,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
   if conf["data_dir"] == node["redis2"]["instances"]["default"]["data_dir"]
     conf["data_dir"] = ::File.join(node["redis2"]["instances"]["default"]["data_dir"], params[:name])
     node.set["redis2"]["instances"][params[:name]]["data_dir"] = conf["data_dir"]
-    Chef::Log.warn "Changing data_dir for #{instance_name} because it shouldn't be default." 
+    Chef::Log.warn "Changing data_dir for #{instance_name} because it shouldn't be default."
   end
 
   # Set the data_dir attribute if it isn't already set
@@ -38,7 +38,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
     conf["vm"]["swap_file"] = ::File.join(
       ::File.dirname(node["redis2"]["instances"]["default"]["vm"]["swap_file"]), "swap_#{params[:name]}")
     node.set["redis2"]["instances"][params[:name]]["vm"]["swap_file"] = conf["vm"]["swap_file"]
-    Chef::Log.warn "Changing vm.swap_file for #{instance_name} because it shouldn't be default." 
+    Chef::Log.warn "Changing vm.swap_file for #{instance_name} because it shouldn't be default."
   end
 
   # the most common use case when using search is to use some attributes of the node object from the search,
@@ -71,6 +71,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
   uplevel_params = params
 
   runit_service instance_name do
+    template_name "redis"
     run_template_name "redis"
     log_template_name "redis"
     cookbook "redis2"
