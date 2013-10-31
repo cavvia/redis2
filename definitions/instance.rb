@@ -72,8 +72,9 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
 
   runit_service instance_name do
     template_name "redis"
+    run_template_name "redis"
+    log_template_name "redis"
     restart_command '-v -w 30 restart'
-    run_restart false
     cookbook "redis2"
     options \
 	  :user => node["redis2"]["user"],
